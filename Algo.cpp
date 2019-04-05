@@ -19,7 +19,31 @@ void comparison(int& a, int& b)
 	if (b < a)
 		swap(a, b);
 }
+void lip(int *ar, int size)
+{
+	int* d = new int[size];
+	int* p = new int[size];
+	for (int i = 0; i < size; ++i)
+	{
 
+		d[i] = 1;
+		p[i] = -1;
+		for (int k = 0; k <= i; k++)
+			cout << d[k] << " ";
+		cout << endl;
+		for (int j = 0; j < i; ++j)
+			if (ar[j] < ar[i])
+			{
+				d[i] = std::fmax(d[i], 1 + d[j]);
+
+			}
+	}
+	int ans = d[0];
+	for (int i = 0; i < size; i++)
+		ans = fmax(ans, d[i]);
+	cout << ans << endl;
+
+}
 void output(int* ar, int n)
 {
 	for (int i = 0; i < n; i++)
@@ -123,7 +147,6 @@ inline void push2(STACK<int> &s, int A, int B)
 	s.push(B);
 	s.push(A);
 }
-
 void modr_quick_sort(int* ar, int l, int r)
 {
 	STACK<int> s(50);
