@@ -149,7 +149,7 @@ void quick_sort(int* ar, int l, int r)
 	quick_sort(ar, i + 1, r);
 
 }
-void mergeAB(int* ar, int *br, int* cr, int N, int M)
+void mergeAB(int* ar, int *br, int N, int* cr, int M)
 {
 	for (int i = 0, j = 0, k = 0; k < N + M; k++)
 	{
@@ -163,23 +163,77 @@ void mergeAB(int* ar, int *br, int* cr, int N, int M)
 			cr[k] = ar[i++];
 			continue;
 		}
-		cr[k] = (ar[i] < br[j])
+		cr[k] = (ar[i] < br[j]) ? ar[i++] : br[j++];
 	}
 }
-/*int rands(int *ar, int l, int r)
+void merge(int ar[], int l, int m, int r)
+{
+	int i, j;
+	int aux[1000];
+	for (i = m + 1; i > l; i--)aux[i - 1] = ar[i - 1];
+	for (j = m; j < r; j++)aux[r + m - j] = ar[j + 1];
+	for (int k = l; k <= r; k++)
+		if (aux[j] < aux[i])
+			ar[k] = aux[j--];
+		else
+			ar[k] = aux[i++];
+}
+
+void mergesort(int ar[], int l, int r)
+{
+	if (r - l <= 5)
+	{
+		insertion_sort(ar, l, r);
+		return;
+	}
+	int m = (r + l) / 2;
+	mergesort(ar, l, m);
+	mergesort(ar, m + 1, r);
+	merge(ar, l, m, r);
+}
+void PQsort(int ar[], int l, int r)
+{
+	PriorQue<int>pqq(r - l + 1);
+	for (int i = l; i <= r; i++)
+		pqq.insert(ar[i]);
+	for (int i = r; i > l; i--)
+		ar[i] = pqq.getmax();
+}
+
+
+/*void mergesortABr(int ar[], int br[], int l, int r)
+{
+	if (r - l <= 10)
+	{
+		insertion_sort(ar, l, r);
+		return;
+	}
+	int m = (r + l) / 2;
+	mergesortABr(ar, br, l, m);
+	mergesortABr(ar, br, m + 1, r);
+	mergeAB(ar + l, br + 1, m - l + 1, br + m + 1, r - m);
+
+}
+void mergesortAB(int a[], int l, int r)
+{
+	int aux[100];
+	for (int i = l; i <= r; i++) aux[i] = a[i];
+	mergesortABr(a, aux, l, r);
+}
+int rands(int *ar, int l, int r)
 {
 	int i = rand() % 10 + 0;
 	swap(ar[r], ar[i]);
 	return partition(ar, l, r);
-}*/
-/*void hybridsort(int* ar, int l, int r)
+}
+void hybridsort(int* ar, int l, int r)
 {
 
 	quick_sort(ar, l, r);
 
 	insertion_sort(ar, l, r);
-}*/
-/*inline void push2(STACK<int> &s, int A, int B)
+}
+inline void push2(STACK<int> &s, int A, int B)
 {
 	s.push(B);
 	s.push(A);
